@@ -15,12 +15,12 @@ def main():
         model="gemini-2.5-flash",
         contents="Why is Boot.dev such a great place to learn backend development? Use one paragraph maximum."
     )
-    print(response.text)
-    if response is None or response.usage_metadata is None:
-        print("there are issues with the response.")
-        return
-    print(f"Response tokens {response.usage_metadata.candidates_token_count}")
-    print(f"Prompt tokens {response.usage_metadata.prompt_token_count}")
+    if response.usage_metadata is None:
+        raise RuntimeError("API response is missing usage metadata")
+
+    print(f"Prompt tokens: {response.usage_metadata.prompt_token_count}")
+    print(f"Response tokens: {response.usage_metadata.candidates_token_count}")
+    print(f"Response: {response.text}")
 
 if __name__ == "__main__":
     main()
